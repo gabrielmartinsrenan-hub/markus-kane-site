@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARCUS KANE // RAW ARCHIVE — Analog & Documentary Photography</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Oswald (Bold Condensed Display), Syne (Avant-garde), Space Mono (Technical Monospace) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Oswald"', 'sans-serif'],
+                        avant: ['"Syne"', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace'],
+                    },
+                    colors: {
+                        void: '#0A0A0A',
+                        cellar: '#111111',
+                        concrete: '#1A1A1A',
+                        paper: '#F2F0EB',
+                        safelight: '#FF331F',
+                        amberlamp: '#FF5E00',
+                        ash: '#8A8882'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #111111;
+            --text-primary: #F2F0EB;
+            --text-muted: #8A8882;
+            --accent: #FF331F;
+            --grid-line: rgba(242, 240, 235, 0.16);
+        }
+
+        /* DARKROOM SAFELIGHT MODE OVERRIDE */
+        body.safelight-active {
+            --bg-primary: #140000;
+            --bg-secondary: #1E0000;
+            --text-primary: #FF2E1F;
+            --text-muted: #A61C12;
+            --accent: #FF4D00;
+            --grid-line: rgba(255, 46, 31, 0.25);
+            background-color: #140000 !important;
+            color: #FF2E1F !important;
+        }
+
+        body.safelight-active img {
+            filter: grayscale(100%) contrast(125%) brightness(85%) sepia(100%) hue-rotate(-50deg) saturate(650%) !important;
+        }
+
+        body.safelight-active .safelight-border {
+            border-color: rgba(255, 46, 31, 0.35) !important;
+        }
+
+        body.safelight-active .safelight-bg {
+            background-color: #1A0000 !important;
+        }
+
+        body.safelight-active .safelight-invert {
+            background-color: #FF2E1F !important;
+            color: #140000 !important;
+        }
+
+        /* Subtle Analog Film Grain Overlay */
+        .film-grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF331F;
+        }
+
+        /* 35mm Film Sprocket Strip Decoration */
+        .film-sprockets {
+            background-image: repeating-linear-gradient(
+                to right,
+                transparent 0px,
+                transparent 14px,
+                rgba(242, 240, 235, 0.14) 14px,
+                rgba(242, 240, 235, 0.14) 24px
+            );
+            height: 10px;
+        }
+
+        /* Loupe 2X Zoom Cursor & Panning */
+        .loupe-active {
+            cursor: zoom-out !important;
+            transform: scale(2.1);
+            transition: transform 0.15s ease-out;
+        }
+        .loupe-ready {
+            cursor: zoom-in;
+            transition: transform 0.25s ease;
+        }
+
+        /* Blinking Darkroom Status Dot */
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.85); }
+        }
+        .blink-lamp {
+            animation: pulse-red 1.8s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-void text-paper font-mono antialiased selection:bg-safelight selection:text-void transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Analog Grain Layer -->
+    <div class="film-grain" aria-hidden="true"></div>
+
+    <!-- ==================== 1. TOP TELEMETRY & BRUTALIST HEADER ==================== -->
+    <header class="sticky top-0 z-40 bg-void/95 backdrop-blur-sm border-b border-paper/20 safelight-border safelight-bg">
+        <!-- Micro Telemetry Bar -->
+        <div class="border-b border-paper/15 safelight-border px-4 md:px-8 py-1.5 flex flex-wrap items-center justify-between text-[10px] md:text-[11px] uppercase tracking-widest text-ash">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-2 text-paper">
+                    <span class="w-2 h-2 rounded-full bg-safelight blink-lamp inline-block"></span>
+                    DARKROOM LAB // BERLIN &amp; TOKYO
+                </span>
+                <span class="hidden sm:inline">|</span>
+                <span class="hidden sm:inline">STOCK: ILFORD HP5+ 400 [PUSHED +2]</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span id="live-clock">UTC 00:00:00</span>
+                <span>|</span>
+                <span>INDEX: 12 FRAMES</span>
+            </div>
+        </div>
+
+        <!-- Main Brutalist Nav Bar -->
+        <div class="px-4 md:px-8 py-3.5 flex items-center justify-between gap-4">
+            <!-- Brand Block -->
+            <a href="#top" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 border border-paper/40 safelight-border flex items-center justify-center font-display font-bold text-lg bg-paper text-void safelight-invert group-hover:bg-safelight group-hover:text-void transition-colors">
+                    MK
+                </div>
+                <div>
+                    <span class="font-display font-bold text-xl md:text-2xl tracking-wider uppercase block leading-none">MARCUS KANE</span>
+                    <span class="text-[10px] tracking-widest text-ash uppercase block mt-0.5">RAW NEGATIVE ARCHIVE // VOL. IX</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden lg:flex items-center border border-paper/20 safelight-border divide-x divide-paper/20 text-xs uppercase tracking-widest">
+                <a href="#archive" class="px-5 py-2.5 hover:bg-paper hover:text-void transition-colors">[01] CONTACT SHEET</a>
+                <a href="#manifesto" class="px-5 py-2.5 hover:bg-paper hover:text-void transition-colors">[02] DARKROOM &amp; GEAR</a>
+                <a href="#editions" class="px-5 py-2.5 hover:bg-paper hover:text-void transition-colors">[03] PRINT EDITIONS</a>
+                <a href="#commission" class="px-5 py-2.5 hover:bg-paper hover:text-void transition-colors">[04] DISPATCH</a>
+            </nav>
+
+            <!-- Action Controls: Safelight Toggle + Print Bag + Mobile Menu -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- DARKROOM SAFELIGHT MODE SWITCH -->
+                <button id="safelight-toggle" type="button" aria-pressed="false" title="Toggle Red Darkroom Safelight Mode"
+                    class="flex items-center gap-2 px-3 py-2 border border-safelight/70 text-xs uppercase tracking-wider hover:bg-safelight hover:text-void transition-all">
+                    <i class="fa-solid fa-lightbulb text-safelight"></i>
+                    <span class="hidden sm:inline font-bold" id="safelight-label">SAFELIGHT: OFF</span>
+                </button>
+
+                <!-- PRINT BAG DRAWER TRIGGER -->
+                <button id="open-bag-btn" type="button"
+                    class="flex items-center gap-2 px-3.5 py-2 bg-paper text-void safelight-invert text-xs font-bold uppercase tracking-wider hover:bg-safelight hover:text-void transition-colors">
+                    <i class="fa-solid fa-box-archive"></i>
+                    <span class="hidden md:inline">PRINT BAG</span>
+                    <span id="bag-count" class="px-1.5 py-0.2 bg-void text-paper text-[10px] font-bold">0</span>
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobile-nav-btn" type="button" aria-label="Open Navigation"
+                    class="lg:hidden p-2 border border-paper/30 safelight-border text-paper">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Drawer -->
+        <div id="mobile-nav-drawer" class="hidden lg:hidden border-t border-paper/20 safelight-border bg-cellar safelight-bg px-4 py-4 space-y-2 text-xs uppercase tracking-widest">
+            <a href="#archive" class="mobile-nav-link block py-2.5 px-3 border border-paper/15 hover:bg-paper hover:text-void">[01] CONTACT SHEET ARCHIVE</a>
+            <a href="#manifesto" class="mobile-nav-link block py-2.5 px-3 border border-paper/15 hover:bg-paper hover:text-void">[02] DARKROOM &amp; KIT</a>
+            <a href="#editions" class="mobile-nav-link block py-2.5 px-3 border border-paper/15 hover:bg-paper hover:text-void">[03] SILVER GELATIN PRINTS</a>
+            <a href="#commission" class="mobile-nav-link block py-2.5 px-3 border border-paper/15 hover:bg-paper hover:text-void">[04] ASSIGNMENT DISPATCH</a>
+        </div>
+    </header>
+
+    <!-- ==================== 2. ASYMMETRIC SWISS-GRID HERO ==================== -->
+    <section id="top" class="border-b border-paper/20 safelight-border grid grid-cols-1 lg:grid-cols-12">
+        <!-- Left Typography Column (7 cols) -->
+        <div class="lg:col-span-7 p-6 sm:p-10 md:p-14 border-b lg:border-b-0 lg:border-r border-paper/20 safelight-border flex flex-col justify-between">
+            <div>
+                <div class="inline-block px-2.5 py-1 border border-safelight text-safelight text-[11px] uppercase tracking-widest mb-6">
+                    UNFILTERED // 35MM &amp; MEDIUM FORMAT DOCUMENTARY
+                </div>
+                <h1 class="font-display font-bold text-5xl sm:text-7xl xl:text-8xl uppercase leading-[0.92] tracking-tight mb-8">
+                    GRAIN,<br>
+                    CONCRETE &amp;<br>
+                    <span class="text-safelight">NOISE.</span>
+                </h1>
+                <p class="text-sm sm:text-base text-paper/80 max-w-xl leading-relaxed mb-10">
+                    Raw street dispatches, underground soundscapes, and nocturnal urban architecture captured strictly on silver halide film. No artificial staging. No digital smoothing. Hand-printed in Berlin.
+                </p>
+            </div>
+
+            <!-- Action Buttons + Technical Specs -->
+            <div class="space-y-8">
+                <div class="flex flex-wrap gap-4">
+                    <a href="#archive" class="px-7 py-4 bg-safelight text-void font-bold text-xs uppercase tracking-widest hover:bg-paper transition-colors">
+                        INSPECT CONTACT SHEET &darr;
+                    </a>
+                    <a href="#editions" class="px-7 py-4 border border-paper/40 safelight-border text-xs uppercase tracking-widest hover:bg-paper hover:text-void transition-colors">
+                        ACQUIRE ARCHIVAL PRINTS
+                    </a>
+                </div>
+
+                <!-- Mini Telemetry Grid -->
+                <div class="grid grid-cols-3 border border-paper/20 safelight-border divide-x divide-paper/20 text-[11px]">
+                    <div class="p-3.5">
+                        <span class="text-ash block uppercase">PRIMARY BODY</span>
+                        <span class="font-bold">LEICA M6 TTL</span>
+                    </div>
+                    <div class="p-3.5">
+                        <span class="text-ash block uppercase">DEVELOPER</span>
+                        <span class="font-bold">KODAK D-76 (1:1)</span>
+                    </div>
+                    <div class="p-3.5">
+                        <span class="text-ash block uppercase">EXHIBITIONS</span>
+                        <span class="font-bold">14 SOLO / INTL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Featured Negative Proof Column (5 cols) -->
+        <div class="lg:col-span-5 bg-cellar safelight-bg flex flex-col justify-between">
+            <!-- Top Film Strip Sprocket Bar -->
+            <div class="px-4 py-2 border-b border-paper/15 safelight-border flex items-center justify-between text-[10px] text-ash tracking-widest">
+                <span>&rarr; KODAK TRI-X 400</span>
+                <span>FRAME 00A // PROOF</span>
+            </div>
+            <div class="film-sprockets w-full border-b border-paper/15 safelight-border"></div>
+
+            <!-- Featured High-Contrast Image -->
+            <div class="relative flex-1 min-h-[380px] overflow-hidden group cursor-pointer" onclick="openLoupeModal(0)">
+                <img 
+                    src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1400&q=85"
+                    onerror="this.src='https://placehold.co/900x1100/111111/FF331F?text=FRAME+00A+TOKYO+RAIN'"
+                    alt="Rain-slicked Tokyo alley at midnight in stark contrast"
+                    class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700"
+                >
+                <!-- Viewfinder Crosshair Overlay -->
+                <div class="absolute inset-4 border border-paper/30 pointer-events-none flex flex-col justify-between p-3">
+                    <div class="flex justify-between text-[10px] tracking-widest bg-void/80 px-2 py-1">
+                        <span>35.6762° N, 139.6503° E</span>
+                        <span class="text-safelight">REC [●]</span>
+                    </div>
+                    <div class="self-end bg-void/90 border border-paper/30 px-3 py-1.5 text-[11px] uppercase tracking-wider">
+                        CLICK FOR 2X LOUPE &rarr;
+                    </div>
+                </div>
+            </div>
+
+            <div class="film-sprockets w-full border-t border-paper/15 safelight-border"></div>
+            <div class="px-4 py-2.5 border-t border-paper/15 safelight-border flex items-center justify-between text-[10px] text-ash uppercase tracking-widest">
+                <span>SHINJUKU MIDNIGHT // 2026</span>
+                <span>35MM SUMMICRON F/2</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. CONTACT SHEET / FILM ARCHIVE ==================== -->
+    <section id="archive" class="border-b border-paper/20 safelight-border">
+        <!-- Archive Control Toolbar -->
+        <div class="p-6 md:p-10 border-b border-paper/20 safelight-border flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+            <div>
+                <span class="text-xs text-safelight uppercase tracking-widest block mb-1">// 01. NEGATIVE INDEX</span>
+                <h2 class="font-display font-bold text-4xl md:text-5xl uppercase tracking-tight">CONTACT SHEET ARCHIVE</h2>
+            </div>
+
+            <div class="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-4">
+                <!-- Category Roll Filters -->
+                <div id="roll-filters" class="flex flex-wrap border border-paper/25 safelight-border divide-x divide-y sm:divide-y-0 divide-paper/25 text-[11px] uppercase tracking-wider">
+                    <button data-roll="ALL" class="roll-btn active px-3.5 py-2.5 bg-paper text-void safelight-invert font-bold transition-colors">
+                        ALL ROLLS [12]
+                    </button>
+                    <button data-roll="35MM STREET" class="roll-btn px-3.5 py-2.5 hover:bg-paper/10 transition-colors">
+                        35MM STREET
+                    </button>
+                    <button data-roll="DOCUMENTARY" class="roll-btn px-3.5 py-2.5 hover:bg-paper/10 transition-colors">
+                        DOCUMENTARY
+                    </button>
+                    <button data-roll="STAGE & SOUND" class="roll-btn px-3.5 py-2.5 hover:bg-paper/10 transition-colors">
+                        STAGE &amp; SOUND
+                    </button>
+                    <button data-roll="NIGHT / NEON" class="roll-btn px-3.5 py-2.5 hover:bg-paper/10 transition-colors">
+                        NIGHT / NEON
+                    </button>
+                </div>
+
+                <!-- View Mode Switcher: Contact Sheet vs Film Strip -->
+                <div class="flex border border-paper/25 safelight-border divide-x divide-paper/25 text-[11px] uppercase tracking-wider">
+                    <button id="view-grid-btn" type="button" class="px-3.5 py-2.5 bg-safelight text-void font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells"></i> CONTACT SHEET
+                    </button>
+                    <button id="view-strip-btn" type="button" class="px-3.5 py-2.5 hover:bg-paper/10 flex items-center gap-2">
+                        <i class="fa-solid fa-film"></i> FILM STRIP
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Archive Render Container -->
+        <div id="archive-container" class="p-6 md:p-10 bg-cellar/60 safelight-bg">
+            <!-- Dynamically injected contact sheet cards or horizontal film strip -->
+        </div>
+    </section>
+
+    <!-- ==================== 4. DARKROOM PHILOSOPHY & TECHNICAL KIT ==================== -->
+    <section id="manifesto" class="border-b border-paper/20 safelight-border grid grid-cols-1 lg:grid-cols-12">
+        <!-- Left Darkroom Image & Specs -->
+        <div class="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-paper/20 safelight-border p-6 md:p-10 flex flex-col justify-between bg-cellar safelight-bg">
+            <div class="border border-paper/20 safelight-border p-3 bg-void">
+                <div class="flex justify-between text-[10px] text-ash pb-2 border-b border-paper/15 mb-3">
+                    <span>FIG 2.1 // MARCUS KANE — KREUZBERG LAB</span>
+                    <span>ISO 3200</span>
+                </div>
+                <img 
+                    src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1000&q=85"
+                    onerror="this.src='https://placehold.co/800x600/0A0A0A/FF331F?text=DARKROOM+LAB'"
+                    alt="Photographer holding mechanical rangefinder camera in low light"
+                    class="w-full aspect-[4/3] object-cover grayscale contrast-125"
+                >
+            </div>
+
+            <div class="mt-8 border border-paper/20 safelight-border divide-y divide-paper/20 text-xs">
+                <div class="p-3.5 flex justify-between">
+                    <span class="text-ash">RANGEFINDER 01</span>
+                    <span class="font-bold">LEICA M6 + 35MM F/2 SUMMICRON</span>
+                </div>
+                <div class="p-3.5 flex justify-between">
+                    <span class="text-ash">MEDIUM FORMAT</span>
+                    <span class="font-bold">MAMIYA 7II + 65MM F/4</span>
+                </div>
+                <div class="p-3.5 flex justify-between">
+                    <span class="text-ash">ENLARGER</span>
+                    <span class="font-bold">DURST M670 CONDENSER</span>
+                </div>
+                <div class="p-3.5 flex justify-between">
+                    <span class="text-ash">ARCHIVAL PAPER</span>
+                    <span class="font-bold">ILFORD MULTIGRADE FB CLASSIC</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Brutalist Manifesto & Press -->
+        <div class="lg:col-span-7 p-6 md:p-12 lg:p-16 flex flex-col justify-between">
+            <div>
+                <span class="text-xs text-safelight uppercase tracking-widest block mb-3">// 02. FIELD METHODOLOGY</span>
+                <h2 class="font-display font-bold text-4xl md:text-6xl uppercase leading-[0.95] mb-8">
+                    IMPERFECTION IS PROOF OF PRESENCE.
+                </h2>
+                <div class="space-y-5 text-sm md:text-base text-paper/80 leading-relaxed max-w-2xl">
+                    <p>
+                        Marcus Kane (b. 1989, Detroit) documents the friction of modern cities, subterranean punk and electronic venues, and overlooked industrial corridors across Europe and East Asia.
+                    </p>
+                    <p>
+                        Working exclusively with mechanical rangefinders and chemical darkroom processes, every exposure is pushed two stops in development to heighten silver grain structure, deep shadow density, and visceral immediacy.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Selected Clients & Publications Table -->
+            <div class="mt-12 pt-8 border-t border-paper/20 safelight-border">
+                <span class="text-[11px] uppercase tracking-widest text-ash block mb-4">SELECTED MONOGRAPHS &amp; EDITORIAL DISPATCHES</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 border border-paper/20 safelight-border divide-x divide-y sm:divide-y-0 divide-paper/20 text-xs font-bold uppercase text-center">
+                    <div class="p-4">DAZED</div>
+                    <div class="p-4">APERTURE</div>
+                    <div class="p-4">032c BERLIN</div>
+                    <div class="p-4">RESIDENT ADVISOR</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. LIMITED EDITION PRINT SHOP ==================== -->
+    <section id="editions" class="border-b border-paper/20 safelight-border">
+        <div class="p-6 md:p-10 border-b border-paper/20 safelight-border flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <span class="text-xs text-safelight uppercase tracking-widest block mb-1">// 03. SILVER GELATIN &amp; ARCHIVAL PIGMENT</span>
+                <h2 class="font-display font-bold text-4xl md:text-5xl uppercase">SIGNED PRINT EDITIONS</h2>
+            </div>
+            <p class="text-xs text-ash max-w-md uppercase leading-relaxed">
+                Every print is hand-numbered, blind-stamped, and signed verso by Marcus Kane. Ships flat in museum-grade archival crates worldwide.
+            </p>
+        </div>
+
+        <!-- Print Editions Grid (4 Curated Editions) -->
+        <div id="print-shop-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-paper/20">
+            <!-- Injected via JS with dynamic size selector & live price update -->
+        </div>
+    </section>
+
+    <!-- ==================== 6. TERMINAL COMMISSION / ASSIGNMENT FORM ==================== -->
+    <section id="commission" class="grid grid-cols-1 lg:grid-cols-12 border-b border-paper/20 safelight-border">
+        <!-- Left Assignment Briefing -->
+        <div class="lg:col-span-5 p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-paper/20 safelight-border bg-cellar safelight-bg flex flex-col justify-between">
+            <div>
+                <span class="text-xs text-safelight uppercase tracking-widest block mb-2">// 04. DIRECT DISPATCH</span>
+                <h2 class="font-display font-bold text-4xl md:text-5xl uppercase leading-none mb-6">
+                    ASSIGNMENT &amp; LICENSING
+                </h2>
+                <p class="text-sm text-paper/75 leading-relaxed mb-8">
+                    Available for editorial features, album artwork, tour documentation, brand lookbooks, and gallery acquisitions worldwide.
+                </p>
+
+                <div class="space-y-4 border-t border-paper/20 safelight-border pt-6 text-xs">
+                    <div>
+                        <span class="text-ash block uppercase">STUDIO / DARKROOM</span>
+                        <span class="font-bold">ORANIENSTRASSE 185, 10999 BERLIN</span>
+                    </div>
+                    <div>
+                        <span class="text-ash block uppercase">DIRECT WIRE</span>
+                        <span class="font-bold">DISPATCH@MARCUSKANE.ARCHIVE</span>
+                    </div>
+                    <div>
+                        <span class="text-ash block uppercase">SYNDICATION &amp; PRESS</span>
+                        <span class="font-bold">+49 (0) 30 8940 2219</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social / Archive Links -->
+            <div class="pt-8 mt-8 border-t border-paper/20 safelight-border flex flex-wrap gap-3 text-xs uppercase">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="px-3 py-2 border border-paper/30 hover:bg-paper hover:text-void transition-colors">INSTAGRAM</a>
+                <a href="https://are.na" target="_blank" rel="noopener noreferrer" class="px-3 py-2 border border-paper/30 hover:bg-paper hover:text-void transition-colors">ARE.NA</a>
+                <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="px-3 py-2 border border-paper/30 hover:bg-paper hover:text-void transition-colors">BEHANCE</a>
+            </div>
+        </div>
+
+        <!-- Right Terminal Form -->
+        <div class="lg:col-span-7 p-6 md:p-12 bg-void">
+            <div class="border border-paper/25 safelight-border">
+                <!-- Terminal Window Header -->
+                <div class="px-4 py-2.5 bg-concrete safelight-bg border-b border-paper/25 safelight-border flex items-center justify-between text-[11px] uppercase tracking-widest">
+                    <span>TERMINAL://NEW_COMMISSION_BRIEF</span>
+                    <span class="text-safelight">ENCRYPTION: TLS 1.3</span>
+                </div>
+
+                <!-- Form -->
+                <form id="dispatch-form" class="p-6 md:p-8 space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="sender-name" class="block text-[11px] uppercase tracking-widest text-ash mb-2">&gt; SENDER / AGENCY *</label>
+                            <input type="text" id="sender-name" required placeholder="ALEX VOGEL // 032C"
+                                class="w-full px-3.5 py-3 bg-cellar border border-paper/25 safelight-border text-sm text-paper placeholder-ash/50 focus:outline-none focus:border-safelight">
+                        </div>
+                        <div>
+                            <label for="sender-email" class="block text-[11px] uppercase tracking-widest text-ash mb-2">&gt; RETURN EMAIL *</label>
+                            <input type="email" id="sender-email" required placeholder="ALEX@PUBLICATION.DE"
+                                class="w-full px-3.5 py-3 bg-cellar border border-paper/25 safelight-border text-sm text-paper placeholder-ash/50 focus:outline-none focus:border-safelight">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="brief-type" class="block text-[11px] uppercase tracking-widest text-ash mb-2">&gt; ASSIGNMENT SCOPE *</label>
+                            <select id="brief-type" class="w-full px-3.5 py-3 bg-cellar border border-paper/25 safelight-border text-sm text-paper focus:outline-none focus:border-safelight">
+                                <option value="EDITORIAL / DOCUMENTARY FEATURE">EDITORIAL / DOCUMENTARY FEATURE</option>
+                                <option value="MUSIC / ALBUM & TOUR COVERAGE">MUSIC / ALBUM &amp; TOUR COVERAGE</option>
+                                <option value="COMMERCIAL / LOOKBOOK CAMPAIGN">COMMERCIAL / LOOKBOOK CAMPAIGN</option>
+                                <option value="EXHIBITION / ARCHIVAL LICENSING">EXHIBITION / ARCHIVAL LICENSING</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="shoot-location" class="block text-[11px] uppercase tracking-widest text-ash mb-2">&gt; TARGET CITY / DATES</label>
+                            <input type="text" id="shoot-location" placeholder="TOKYO // DEC 2026"
+                                class="w-full px-3.5 py-3 bg-cellar border border-paper/25 safelight-border text-sm text-paper placeholder-ash/50 focus:outline-none focus:border-safelight">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="brief-notes" class="block text-[11px] uppercase tracking-widest text-ash mb-2">&gt; BRIEF TRANSMISSION *</label>
+                        <textarea id="brief-notes" rows="4" required placeholder="ENTER PROJECT PARAMETERS, DELIVERABLES, AND TIMELINE..."
+                            class="w-full px-3.5 py-3 bg-cellar border border-paper/25 safelight-border text-sm text-paper placeholder-ash/50 focus:outline-none focus:border-safelight resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-paper text-void safelight-invert font-bold text-xs uppercase tracking-widest hover:bg-safelight hover:text-void transition-colors">
+                        [ TRANSMIT DISPATCH BRIEF ]
+                    </button>
+                </form>
+
+                <!-- Receipt Output (Hidden until submitted) -->
+                <div id="dispatch-receipt" class="hidden p-8 space-y-5 bg-cellar safelight-bg">
+                    <div class="inline-block px-3 py-1 bg-safelight text-void text-xs font-bold uppercase tracking-widest">
+                        TRANSMISSION CONFIRMED // REF #MK-9042
+                    </div>
+                    <h3 class="font-display text-3xl uppercase">DISPATCH LOGGED IN DARKROOM QUEUE</h3>
+                    <p id="receipt-details" class="text-xs sm:text-sm text-paper/80 leading-relaxed border-l-2 border-safelight pl-4"></p>
+                    <button id="new-dispatch-btn" type="button" class="px-5 py-2.5 border border-paper/40 text-xs uppercase tracking-widest hover:bg-paper hover:text-void transition-colors">
+                        &lt; SEND NEW TRANSMISSION
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="px-6 md:px-10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-ash uppercase tracking-widest">
+        <div>&copy; 2026 MARCUS KANE RAW ARCHIVE. ALL NEGATIVES PROTECTED.</div>
+        <div class="flex items-center gap-6">
+            <span>SILVER HALIDE ONLY</span>
+            <a href="#top" class="text-paper hover:text-safelight transition-colors">[ TOP &uarr; ]</a>
+        </div>
+    </footer>
+
+    <!-- ==================== 2X LOUPE LIGHTBOX INSPECTOR MODAL ==================== -->
+    <div id="loupe-modal" role="dialog" aria-modal="true" aria-label="Negative Loupe Inspector"
+        class="fixed inset-0 z-50 bg-void/95 backdrop-blur-md hidden flex-col justify-between p-4 sm:p-6">
+        
+        <!-- Top Loupe Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paper/20 pb-3">
+            <div class="flex items-center gap-3">
+                <span id="loupe-frame-code" class="px-2.5 py-1 bg-safelight text-void font-bold text-xs">FRAME 01A</span>
+                <span id="loupe-title" class="font-display text-xl sm:text-2xl uppercase tracking-wide">NEGATIVE TITLE</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <!-- 2X Loupe Magnifier Toggle -->
+                <button id="loupe-zoom-btn" type="button"
+                    class="px-3.5 py-2 border border-paper/35 text-xs uppercase tracking-wider hover:bg-paper hover:text-void transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    <span id="loupe-zoom-label">LOUPE 2X: OFF</span>
+                </button>
+                <button id="loupe-close-btn" type="button" aria-label="Close Loupe"
+                    class="px-3.5 py-2 bg-paper text-void font-bold text-xs uppercase tracking-wider hover:bg-safelight transition-colors">
+                    [ ESC / CLOSE ]
+                </button>
+            </div>
+        </div>
+
+        <!-- Image Stage with Prev/Next Controls -->
+        <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
+            <button id="loupe-prev-btn" type="button" aria-label="Previous Frame"
+                class="absolute left-2 sm:left-4 z-20 px-3.5 py-3 bg-void/85 border border-paper/30 hover:bg-safelight hover:text-void transition-colors text-xs font-bold">
+                &larr; PREV
+            </button>
+
+            <div id="loupe-viewport" class="max-h-[70vh] max-w-5xl overflow-hidden flex items-center justify-center border border-paper/15 bg-cellar">
+                <img id="loupe-img" src="" alt="" class="max-h-[70vh] max-w-full object-contain loupe-ready select-none">
+            </div>
+
+            <button id="loupe-next-btn" type="button" aria-label="Next Frame"
+                class="absolute right-2 sm:right-4 z-20 px-3.5 py-3 bg-void/85 border border-paper/30 hover:bg-safelight hover:text-void transition-colors text-xs font-bold">
+                NEXT &rarr;
+            </button>
+        </div>
+
+        <!-- Bottom Film Stock & GPS Telemetry Bar -->
+        <div class="border-t border-paper/20 pt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] uppercase tracking-wider text-ash">
+            <div><span class="text-paper font-bold">FILM / CAMERA:</span> <span id="loupe-specs">LEICA M6 // TRI-X 400</span></div>
+            <div class="sm:text-center"><span class="text-paper font-bold">COORDINATES:</span> <span id="loupe-coords">52.5200° N, 13.4050° E</span></div>
+            <div class="sm:text-right"><span class="text-paper font-bold">CATEGORY:</span> <span id="loupe-cat">35MM STREET</span></div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE-OUT PRINT BAG DRAWER ==================== -->
+    <div id="bag-overlay" class="fixed inset-0 z-50 bg-void/80 backdrop-blur-xs hidden">
+        <aside id="bag-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-cellar safelight-bg border-l border-paper/25 safelight-border flex flex-col justify-between p-6 shadow-2xl">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between border-b border-paper/20 pb-4">
+                <div>
+                    <span class="text-[10px] text-safelight uppercase tracking-widest block">ARCHIVAL ACQUISITIONS</span>
+                    <h3 class="font-display text-2xl uppercase font-bold">PRINT RESERVATION BAG</h3>
+                </div>
+                <button id="close-bag-btn" type="button" class="px-3 py-1.5 border border-paper/30 text-xs uppercase hover:bg-paper hover:text-void">
+                    CLOSE [X]
+                </button>
+            </div>
+
+            <!-- Bag Items List -->
+            <div id="bag-items-list" class="flex-1 overflow-y-auto py-4 space-y-4">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Drawer Footer / Checkout -->
+            <div class="border-t border-paper/20 pt-4 space-y-4">
+                <div class="flex items-center justify-between text-sm font-bold uppercase">
+                    <span>ESTIMATED TOTAL (USD)</span>
+                    <span id="bag-total" class="text-xl text-safelight">$0</span>
+                </div>
+                <p class="text-[11px] text-ash leading-relaxed">
+                    Includes Certificate of Authenticity &amp; insured flat-pack shipping. Payment invoice issued upon edition verification.
+                </p>
+                <button id="checkout-bag-btn" type="button"
+                    class="w-full py-3.5 bg-safelight text-void font-bold text-xs uppercase tracking-widest hover:bg-paper transition-colors disabled:opacity-40">
+                    RESERVE SELECTED EDITIONS &rarr;
+                </button>
+                <div id="bag-checkout-msg" class="hidden p-3 border border-safelight text-xs text-paper bg-void">
+                    RESERVATION LOGGED. Studio registrar will send wire/invoice details within 12 hours.
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ==================== JAVASCRIPT APPLICATION ==================== -->
+    <script>
+        // 1. ARCHIVE NEGATIVES DATASET (12 Frames)
+        const archiveFrames = [
+            {
+                frame: "00A",
+                title: "SHINJUKU MIDNIGHT DOWNPOUR",
+                roll: "NIGHT / NEON",
+                location: "TOKYO, JP",
+                coords: "35.6938° N, 139.7034° E",
+                specs: "LEICA M6 // CINESTILL 800T",
+                url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "01A",
+                title: "SUBTERRANEAN FEEDBACK LOOP",
+                roll: "STAGE & SOUND",
+                location: "BERLIN, DE",
+                coords: "52.5112° N, 13.4430° E",
+                specs: "LEICA M6 // ILFORD HP5+ 400 (+2)",
+                url: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "02A",
+                title: "U-BAHN COMMUTER SILHOUETTE",
+                roll: "35MM STREET",
+                location: "KREUZBERG, DE",
+                coords: "52.4991° N, 13.4184° E",
+                specs: "LEICA M6 // KODAK TRI-X 400",
+                url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "03A",
+                title: "STEEL MILL SHIFT CHANGE",
+                roll: "DOCUMENTARY",
+                location: "RUHR VALLEY, DE",
+                coords: "51.4556° N, 7.0116° E",
+                specs: "MAMIYA 7II // ILFORD DELTA 3200",
+                url: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "04A",
+                title: "STROBE & SYNTHESISER FOG",
+                roll: "STAGE & SOUND",
+                location: "LONDON, UK",
+                coords: "51.5465° N, 0.0553° W",
+                specs: "LEICA M6 // KODAK T-MAX P3200",
+                url: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "05A",
+                title: "CONCRETE OVERPASS SHADOWS",
+                roll: "35MM STREET",
+                location: "DETROIT, US",
+                coords: "42.3314° N, 83.0458° W",
+                specs: "LEICA M6 // KODAK TRI-X 400",
+                url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "06A",
+                title: "KOWLOON VAPOR & NEON",
+                roll: "NIGHT / NEON",
+                location: "HONG KONG",
+                coords: "22.3193° N, 114.1694° E",
+                specs: "MAMIYA 7II // CINESTILL 800T",
+                url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "07A",
+                title: "DOCKYARD CRANE WINTER",
+                roll: "DOCUMENTARY",
+                location: "GDANSK, PL",
+                coords: "54.3520° N, 18.6466° E",
+                specs: "MAMIYA 7II // ILFORD FP4 125",
+                url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "08A",
+                title: "CROSSWALK MOTION BLUR 1/8S",
+                roll: "35MM STREET",
+                location: "NEW YORK, US",
+                coords: "40.7580° N, 73.9855° W",
+                specs: "LEICA M6 // ILFORD HP5+ 400",
+                url: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "09A",
+                title: "WAREHOUSE RAVE 04:45 AM",
+                roll: "STAGE & SOUND",
+                location: "TBILISI, GE",
+                coords: "41.7151° N, 44.8271° E",
+                specs: "LEICA M6 // KODAK T-MAX P3200",
+                url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "10A",
+                title: "SODIUM VAPOR TUNNEL",
+                roll: "NIGHT / NEON",
+                location: "SEOUL, KR",
+                coords: "37.5665° N, 126.9780° E",
+                specs: "LEICA M6 // PORTRA 800",
+                url: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=85"
+            },
+            {
+                frame: "11A",
+                title: "BRUTALIST HOUSING BLOCK IV",
+                roll: "DOCUMENTARY",
+                location: "BELGRADE, RS",
+                coords: "44.8125° N, 20.4612° E",
+                specs: "MAMIYA 7II // KODAK TRI-X 400",
+                url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=85"
+            }
+        ];
+
+        // 2. LIMITED EDITION PRINT SHOP ITEMS
+        const printEditions = [
+            {
+                id: "ED-01",
+                title: "SHINJUKU MIDNIGHT",
+                paper: "SILVER GELATIN FIBER",
+                edition: "EDITION OF 25",
+                basePrice: 280,
+                url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: "ED-02",
+                title: "SUBTERRANEAN LOOP",
+                paper: "ILFORD WARMTONE FB",
+                edition: "EDITION OF 15",
+                basePrice: 340,
+                url: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: "ED-03",
+                title: "U-BAHN SILHOUETTE",
+                paper: "SILVER GELATIN FIBER",
+                edition: "EDITION OF 30",
+                basePrice: 240,
+                url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: "ED-04",
+                title: "BRUTALIST BLOCK IV",
+                paper: "HAHNEMÜHLE BARYTA",
+                edition: "EDITION OF 20",
+                basePrice: 310,
+                url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const sizeMultipliers = {
+            "8x10 IN": 1,
+            "16x20 IN": 1.65,
+            "24x30 IN": 2.4
+        };
+
+        let activeRoll = "ALL";
+        let viewMode = "grid"; // "grid" or "strip"
+        let currentVisibleFrames = [...archiveFrames];
+        let currentLoupeIdx = 0;
+        let isLoupeZoomed = false;
+        let printBag = [];
+
+        // LIVE UTC TELEMETRY CLOCK
+        function updateClock() {
+            const now = new Date();
+            const utc = now.toISOString().substr(11, 8);
+            document.getElementById("live-clock").textContent = `UTC ${utc}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // DARKROOM SAFELIGHT MODE TOGGLE
+        const safelightBtn = document.getElementById("safelight-toggle");
+        const safelightLabel = document.getElementById("safelight-label");
+        safelightBtn.addEventListener("click", () => {
+            const isActive = document.body.classList.toggle("safelight-active");
+            safelightBtn.setAttribute("aria-pressed", isActive);
+            safelightLabel.textContent = isActive ? "SAFELIGHT: ON" : "SAFELIGHT: OFF";
+        });
+
+        // MOBILE MENU TOGGLE
+        const mobileNavBtn = document.getElementById("mobile-nav-btn");
+        const mobileNavDrawer = document.getElementById("mobile-nav-drawer");
+        mobileNavBtn.addEventListener("click", () => {
+            mobileNavDrawer.classList.toggle("hidden");
+        });
+        document.querySelectorAll(".mobile-nav-link").forEach(link => {
+            link.addEventListener("click", () => mobileNavDrawer.classList.add("hidden"));
+        });
+
+        // RENDER ARCHIVE (CONTACT SHEET GRID OR FILM STRIP)
+        const archiveContainer = document.getElementById("archive-container");
+
+        function renderArchive() {
+            currentVisibleFrames = activeRoll === "ALL"
+                ? [...archiveFrames]
+                : archiveFrames.filter(item => item.roll === activeRoll);
+
+            if (viewMode === "grid") {
+                archiveContainer.innerHTML = `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        ${currentVisibleFrames.map((item, idx) => `
+                            <article onclick="openLoupeModal(${idx})" tabindex="0" role="button"
+                                onkeydown="if(event.key==='Enter') openLoupeModal(${idx})"
+                                class="group border border-paper/20 safelight-border bg-void hover:border-safelight transition-all cursor-pointer flex flex-col justify-between">
+                                <!-- Negative Frame Header -->
+                                <div class="px-3 py-2 border-b border-paper/15 safelight-border flex items-center justify-between text-[10px] tracking-widest text-ash">
+                                    <span class="font-bold text-paper group-hover:text-safelight">&rarr; ${item.frame}</span>
+                                    <span>${item.roll}</span>
+                                </div>
+                                <!-- Image Frame -->
+                                <div class="relative aspect-[4/5] overflow-hidden bg-cellar">
+                                    <img src="${item.url}" alt="${item.title}" loading="lazy"
+                                        onerror="this.src='https://placehold.co/600x750/111111/FF331F?text=${item.frame}'"
+                                        class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute bottom-2 right-2 bg-void/90 border border-paper/30 px-2 py-1 text-[10px] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                                        [ LOUPE + ]
+                                    </div>
+                                </div>
+                                <!-- Negative Frame Footer -->
+                                <div class="p-3.5 border-t border-paper/15 safelight-border">
+                                    <h3 class="font-display font-bold text-lg uppercase tracking-wide truncate">${item.title}</h3>
+                                    <div class="flex items-center justify-between text-[10px] text-ash mt-1">
+                                        <span>${item.location}</span>
+                                        <span>${item.specs.split('//')[1] || item.specs}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                // HORIZONTAL 35MM FILM STRIP VIEW
+                archiveContainer.innerHTML = `
+                    <div class="border border-paper/25 safelight-border bg-void">
+                        <div class="film-sprockets w-full border-b border-paper/20"></div>
+                        <div class="flex overflow-x-auto divide-x divide-paper/25 snap-x">
+                            ${currentVisibleFrames.map((item, idx) => `
+                                <article onclick="openLoupeModal(${idx})"
+                                    class="min-w-[290px] sm:min-w-[340px] snap-start p-4 hover:bg-cellar transition-colors cursor-pointer group">
+                                    <div class="flex justify-between text-[10px] text-safelight font-bold mb-2">
+                                        <span>FRAME ${item.frame}</span>
+                                        <span>KODAK 400TX</span>
+                                    </div>
+                                    <div class="aspect-[4/3] overflow-hidden border border-paper/20 mb-3">
+                                        <img src="${item.url}" alt="${item.title}" loading="lazy"
+                                            class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                    <h3 class="font-display font-bold text-xl uppercase truncate">${item.title}</h3>
+                                    <p class="text-[11px] text-ash mt-1">${item.location} // ${item.specs}</p>
+                                </article>
+                            `).join('')}
+                        </div>
+                        <div class="film-sprockets w-full border-t border-paper/20"></div>
+                    </div>
+                    <p class="text-[11px] text-ash uppercase tracking-widest mt-3">&larr; SCROLL HORIZONTALLY TO ADVANCE 35MM REEL &rarr;</p>
+                `;
+            }
+        }
+
+        // Filter Roll Buttons
+        document.querySelectorAll(".roll-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".roll-btn").forEach(b => {
+                    b.classList.remove("bg-paper", "text-void", "safelight-invert", "font-bold");
+                });
+                btn.classList.add("bg-paper", "text-void", "safelight-invert", "font-bold");
+                activeRoll = btn.dataset.roll;
+                renderArchive();
+            });
+        });
+
+        // View Mode Switcher Buttons
+        const viewGridBtn = document.getElementById("view-grid-btn");
+        const viewStripBtn = document.getElementById("view-strip-btn");
+
+        viewGridBtn.addEventListener("click", () => {
+            viewMode = "grid";
+            viewGridBtn.classList.add("bg-safelight", "text-void", "font-bold");
+            viewStripBtn.classList.remove("bg-safelight", "text-void", "font-bold");
+            renderArchive();
+        });
+
+        viewStripBtn.addEventListener("click", () => {
+            viewMode = "strip";
+            viewStripBtn.classList.add("bg-safelight", "text-void", "font-bold");
+            viewGridBtn.classList.remove("bg-safelight", "text-void", "font-bold");
+            renderArchive();
+        });
+
+        renderArchive();
+
+        // 3. LOUPE / LIGHTBOX INSPECTOR WITH 2X ZOOM
+        const loupeModal = document.getElementById("loupe-modal");
+        const loupeImg = document.getElementById("loupe-img");
+        const loupeZoomBtn = document.getElementById("loupe-zoom-btn");
+        const loupeZoomLabel = document.getElementById("loupe-zoom-label");
+
+        function resetLoupeZoom() {
+            isLoupeZoomed = false;
+            loupeImg.classList.remove("loupe-active");
+            loupeImg.style.transformOrigin = "center center";
+            loupeZoomLabel.textContent = "LOUPE 2X: OFF";
+        }
+
+        function updateLoupeDisplay() {
+            resetLoupeZoom();
+            const item = currentVisibleFrames[currentLoupeIdx];
+            if (!item) return;
+            document.getElementById("loupe-frame-code").textContent = `FRAME ${item.frame}`;
+            document.getElementById("loupe-title").textContent = item.title;
+            document.getElementById("loupe-specs").textContent = item.specs;
+            document.getElementById("loupe-coords").textContent = `${item.location} (${item.coords})`;
+            document.getElementById("loupe-cat").textContent = item.roll;
+            loupeImg.src = item.url;
+            loupeImg.alt = item.title;
+        }
+
+        window.openLoupeModal = function(index) {
+            currentLoupeIdx = index;
+            updateLoupeDisplay();
+            loupeModal.classList.remove("hidden");
+            loupeModal.classList.add("flex");
+            document.body.style.overflow = "hidden";
+        };
+
+        function closeLoupeModal() {
+            resetLoupeZoom();
+            loupeModal.classList.add("hidden");
+            loupeModal.classList.remove("flex");
+            document.body.style.overflow = "";
+        }
+
+        function toggleLoupeZoom() {
+            isLoupeZoomed = !isLoupeZoomed;
+            if (isLoupeZoomed) {
+                loupeImg.classList.add("loupe-active");
+                loupeZoomLabel.textContent = "LOUPE 2X: ACTIVE";
+            } else {
+                resetLoupeZoom();
+            }
+        }
+
+        // Pan 2X Loupe with mouse movement
+        loupeImg.addEventListener("mousemove", (e) => {
+            if (!isLoupeZoomed) return;
+            const rect = loupeImg.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            loupeImg.style.transformOrigin = `${x}% ${y}%`;
+        });
+
+        loupeImg.addEventListener("click", toggleLoupeZoom);
+        loupeZoomBtn.addEventListener("click", toggleLoupeZoom);
+        document.getElementById("loupe-close-btn").addEventListener("click", closeLoupeModal);
+
+        document.getElementById("loupe-next-btn").addEventListener("click", () => {
+            currentLoupeIdx = (currentLoupeIdx + 1) % currentVisibleFrames.length;
+            updateLoupeDisplay();
+        });
+
+        document.getElementById("loupe-prev-btn").addEventListener("click", () => {
+            currentLoupeIdx = (currentLoupeIdx - 1 + currentVisibleFrames.length) % currentVisibleFrames.length;
+            updateLoupeDisplay();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (loupeModal.classList.contains("hidden")) return;
+            if (e.key === "Escape") closeLoupeModal();
+            if (e.key === "ArrowRight") {
+                currentLoupeIdx = (currentLoupeIdx + 1) % currentVisibleFrames.length;
+                updateLoupeDisplay();
+            }
+            if (e.key === "ArrowLeft") {
+                currentLoupeIdx = (currentLoupeIdx - 1 + currentVisibleFrames.length) % currentVisibleFrames.length;
+                updateLoupeDisplay();
+            }
+        });
+
+        // 4. INTERACTIVE LIMITED EDITION PRINT SHOP & SLIDE-OUT BAG
+        const printShopGrid = document.getElementById("print-shop-grid");
+
+        function renderPrintShop() {
+            printShopGrid.innerHTML = printEditions.map(ed => `
+                <div class="p-6 flex flex-col justify-between bg-void hover:bg-cellar/80 transition-colors">
+                    <div>
+                        <div class="flex justify-between text-[10px] text-ash uppercase tracking-widest mb-3">
+                            <span>${ed.id} // ${ed.edition}</span>
+                            <span class="text-safelight font-bold" id="price-${ed.id}">$${ed.basePrice}</span>
+                        </div>
+                        <div class="aspect-[4/5] border border-paper/20 safelight-border mb-4 overflow-hidden bg-cellar">
+                            <img src="${ed.url}" alt="${ed.title}" class="w-full h-full object-cover grayscale contrast-125">
+                        </div>
+                        <h3 class="font-display font-bold text-2xl uppercase">${ed.title}</h3>
+                        <p class="text-[11px] text-ash uppercase mt-1 mb-4">${ed.paper}</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-paper/15 safelight-border">
+                        <label for="size-${ed.id}" class="block text-[10px] uppercase tracking-widest text-ash">SELECT ARCHIVAL FORMAT:</label>
+                        <select id="size-${ed.id}" onchange="updateEditionPrice('${ed.id}', ${ed.basePrice})"
+                            class="w-full px-3 py-2 bg-cellar border border-paper/25 safelight-border text-xs text-paper focus:outline-none">
+                            <option value="8x10 IN">8x10 IN — SMALL FOLIO</option>
+                            <option value="16x20 IN">16x20 IN — GALLERY STANDARD</option>
+                            <option value="24x30 IN">24x30 IN — MONOLITH EDITION</option>
+                        </select>
+                        <button type="button" onclick="addToPrintBag('${ed.id}')"
+                            class="w-full py-3 bg-paper text-void safelight-invert font-bold text-xs uppercase tracking-widest hover:bg-safelight hover:text-void transition-colors">
+                            + ADD TO PRINT BAG
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.updateEditionPrice = function(id, basePrice) {
+            const size = document.getElementById(`size-${id}`).value;
+            const finalPrice = Math.round(basePrice * sizeMultipliers[size]);
+            document.getElementById(`price-${id}`).textContent = `$${finalPrice}`;
+        };
+
+        const bagOverlay = document.getElementById("bag-overlay");
+        const bagItemsList = document.getElementById("bag-items-list");
+        const bagCount = document.getElementById("bag-count");
+        const bagTotal = document.getElementById("bag-total");
+        const bagCheckoutMsg = document.getElementById("bag-checkout-msg");
+
+        function openPrintBag() {
+            bagCheckoutMsg.classList.add("hidden");
+            bagOverlay.classList.remove("hidden");
+        }
+
+        function closePrintBag() {
+            bagOverlay.classList.add("hidden");
+        }
+
+        document.getElementById("open-bag-btn").addEventListener("click", openPrintBag);
+        document.getElementById("close-bag-btn").addEventListener("click", closePrintBag);
+        bagOverlay.addEventListener("click", (e) => {
+            if (e.target === bagOverlay) closePrintBag();
+        });
+
+        window.addToPrintBag = function(id) {
+            const edition = printEditions.find(e => e.id === id);
+            const size = document.getElementById(`size-${id}`).value;
+            const price = Math.round(edition.basePrice * sizeMultipliers[size]);
+
+            printBag.push({
+                uid: Date.now() + Math.random(),
+                title: edition.title,
+                size,
+                price
+            });
+            updateBagUI();
+            openPrintBag();
+        };
+
+        window.removeFromPrintBag = function(uid) {
+            printBag = printBag.filter(item => item.uid !== uid);
+            updateBagUI();
+        };
+
+        function updateBagUI() {
+            bagCount.textContent = printBag.length;
+            const total = printBag.reduce((sum, item) => sum + item.price, 0);
+            bagTotal.textContent = `$${total}`;
+
+            if (printBag.length === 0) {
+                bagItemsList.innerHTML = `<p class="text-xs text-ash uppercase py-10 text-center border border-dashed border-paper/20">NO PRINTS RESERVED IN BAG.</p>`;
+            } else {
+                bagItemsList.innerHTML = printBag.map(item => `
+                    <div class="p-3.5 border border-paper/20 bg-void flex items-center justify-between gap-3">
+                        <div>
+                            <h4 class="font-display font-bold text-lg uppercase">${item.title}</h4>
+                            <span class="text-[11px] text-ash block">${item.size} // $${item.price} USD</span>
+                        </div>
+                        <button type="button" onclick="removeFromPrintBag(${item.uid})" class="text-xs text-safelight hover:underline uppercase">
+                            [REMOVE]
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.getElementById("checkout-bag-btn").addEventListener("click", () => {
+            if (printBag.length === 0) return;
+            bagCheckoutMsg.classList.remove("hidden");
+            printBag = [];
+            updateBagUI();
+        });
+
+        renderPrintShop();
+        updateBagUI();
+
+        // 5. TERMINAL COMMISSION DISPATCH FORM
+        const dispatchForm = document.getElementById("dispatch-form");
+        const dispatchReceipt = document.getElementById("dispatch-receipt");
+        const receiptDetails = document.getElementById("receipt-details");
+
+        dispatchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const sender = document.getElementById("sender-name").value.trim().toUpperCase();
+            const scope = document.getElementById("brief-type").value;
+            const loc = document.getElementById("shoot-location").value.trim().toUpperCase() || "TBD";
+
+            receiptDetails.innerHTML = `
+                ORIGIN: <strong>${sender}</strong><br>
+                SCOPE: <strong>${scope}</strong><br>
+                LOCATION / WINDOW: <strong>${loc}</strong><br>
+                STATUS: QUEUED FOR STUDIO RESPONSE WITHIN 24H.
+            `;
+
+            dispatchForm.classList.add("hidden");
+            dispatchReceipt.classList.remove("hidden");
+        });
+
+        document.getElementById("new-dispatch-btn").addEventListener("click", () => {
+            dispatchForm.reset();
+            dispatchReceipt.classList.add("hidden");
+            dispatchForm.classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
